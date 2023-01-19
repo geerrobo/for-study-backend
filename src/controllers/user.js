@@ -87,7 +87,18 @@ const login = async (req, res) => {
     }
 }
 
+const retrieve = async (req, res) => {
+    try {
+        const user = User.findById(req.params.id)
+        delete user.password
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
 module.exports = {
     register,
-    login
+    login,
+    retrieve
 }

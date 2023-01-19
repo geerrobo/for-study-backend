@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
+const authMiddleware = require('./middleware/auth')
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
 
@@ -14,7 +15,7 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 
 app.use('', authRoutes)
-app.use('/user', userRoutes)
+app.use('/user', authMiddleware, userRoutes)
 
 app.listen(5000, () => {
     console.log(`Server Running on Port: http://localhost:5000`);
